@@ -3,11 +3,13 @@
 # build.sh - Build script for Render.com deployment
 # This script is used to prepare the application for deployment
 
+set -e  # Exit on error
+
 echo "Upgrading pip, setuptools, and wheel..."
-pip install --upgrade pip setuptools wheel
+python -m pip install --upgrade --no-cache-dir pip setuptools wheel
 
 echo "Installing Python dependencies..."
-pip install -r requirements.txt
+pip install --no-cache-dir -r requirements.txt
 
 echo "Creating necessary directories..."
 mkdir -p static/uploads

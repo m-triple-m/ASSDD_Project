@@ -3,7 +3,7 @@ services:
     name: aerial-image-segmentation
     runtime: python
     runtimeVersion: 3.11
-    buildCommand: pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+    buildCommand: pip install --upgrade --no-cache-dir pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
