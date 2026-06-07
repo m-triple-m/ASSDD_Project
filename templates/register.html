@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 90vh; padding-top: 50px; padding-bottom: 50px;">
+    <div class="card border-0 shadow-lg p-4 rounded-4" style="max-width: 500px; width: 100%;">
+        
+        <div class="text-center mb-4">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                <i class="bi bi-person-plus-fill fs-1"></i>
+            </div>
+            <h2 class="fw-bold">Create Account</h2>
+            <p class="text-muted small">Join DroneVision AI and start exploring datasets</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{% if category == 'error' %}danger{% else %}{{ category }}{% endif %} p-2 small text-center border-0 mb-3" style="border-radius: 10px;">
+                  <i class="bi {% if category == 'error' %}bi-exclamation-circle{% else %}bi-check-circle{% endif %} me-1"></i> {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('register') }}" method="POST">
+            <div class="mb-3">
+                <label class="form-label small fw-bold">Full Name</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-person text-muted"></i></span>
+                    <input type="text" name="name" class="form-control bg-light border-0 shadow-none" placeholder="John Doe" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small fw-bold">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-envelope text-muted"></i></span>
+                    <input type="email" name="email" class="form-control bg-light border-0 shadow-none" placeholder="name@example.com" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label small fw-bold">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-key text-muted"></i></span>
+                    <input type="password" name="password" class="form-control bg-light border-0 shadow-none" placeholder="Min. 8 characters" required>
+                </div>
+                <div class="form-text" style="font-size: 0.75rem;">Must include letters and numbers.</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label small fw-bold">Confirm Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-shield-check text-muted"></i></span>
+                    <input type="password" name="confirm_password" class="form-control bg-light border-0 shadow-none" placeholder="Repeat password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-2 rounded-pill fw-bold shadow">
+                Sign Up <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="small text-muted mb-0">Already have an account?</p>
+            <a href="{{ url_for('login') }}" class="fw-bold text-decoration-none text-success">Login Here</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

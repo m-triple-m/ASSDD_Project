@@ -1,0 +1,266 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<header class="hero-section" style="background: linear-gradient(rgba(11, 17, 32, 0.85), rgba(30, 41, 59, 0.85)), url('{{ image_url }}'); background-size: cover; background-position: center; height: 85vh; display: flex; align-items: center; background-blend-mode: overlay;">
+    <div class="container text-center py-5">
+        <div class="badge rounded-pill bg-primary bg-opacity-25 text-primary px-4 py-2 mb-4 border border-primary border-opacity-50 animate__animated animate__fadeInDown">
+            <i class="bi bi-cpu-fill me-2"></i>Next-Gen AI Research
+        </div>
+        <h1 class="display-2 fw-bold text-white mb-3 tracking-tight">Aerial <span class="text-primary">Intelligence</span></h1>
+        <p class="lead text-white-50 fs-4 mb-5 mx-auto w-75 fw-light">
+            High-precision geospatial analytics merging deep learning with professional drone imagery for environmental and industrial monitoring.
+        </p>
+        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+            <a href="{{ url_for('detector') if session.get('user_id') else url_for('register') }}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg border-0 fw-bold transition-all">
+                {% if session.get('user_id') %}Start Analysis{% else %}Get Started{% endif %} <i class="bi bi-chevron-right ms-2"></i>
+            </a>
+            <a href="/services" class="btn btn-outline-light btn-lg px-5 py-3 rounded-pill fw-bold backdrop-blur">
+                Explore Services
+            </a>
+        </div>
+    </div>
+</header>
+
+<section class="container py-5 mt-n5 position-relative z-index-10">
+    <div class="text-center mb-5 mt-5">
+        <h6 class="text-primary text-uppercase fw-bold ls-2">Operational Flow</h6>
+        <h2 class="fw-bold">Intelligent Pipeline</h2>
+        <div class="mx-auto bg-primary rounded-pill" style="width: 60px; height: 4px;"></div>
+    </div>
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="p-5 bg-white rounded-5 shadow-lg border-0 h-100 hover-lift-up">
+                <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded-circle mb-4 mx-auto">
+                    <i class="bi bi-cloud-arrow-up fs-2"></i>
+                </div>
+                <h5 class="fw-bold">1. Cloud Upload</h5>
+                <p class="text-muted small">Securely upload drone imagery to our cloud storage.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-5 bg-white rounded-5 shadow-lg border-0 h-100 hover-lift-up">
+                <div class="icon-shape bg-success bg-opacity-10 text-success rounded-circle mb-4 mx-auto">
+                    <i class="bi bi-layers fs-2"></i>
+                </div>
+                <h5 class="fw-bold">2. Neural Analysis</h5>
+                <p class="text-muted small">Transformer-based models extract high-fidelity masks.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-5 bg-white rounded-5 shadow-lg border-0 h-100 hover-lift-up">
+                <div class="icon-shape bg-warning bg-opacity-10 text-warning rounded-circle mb-4 mx-auto">
+                    <i class="bi bi-file-earmark-bar-graph fs-2"></i>
+                </div>
+                <h5 class="fw-bold">3. GIS Insights</h5>
+                <p class="text-muted small">Export data directly into ArcGIS, QGIS, or reports.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container py-5 my-5">
+    <div class="row align-items-center bg-white p-4 p-lg-5 rounded-5 shadow-xl border overflow-hidden">
+        
+        <div class="col-lg-5 mb-5 mb-lg-0 pe-lg-5">
+            <span class="badge bg-soft-primary text-primary mb-3 px-3">Visual Computing</span>
+            <h2 class="fw-bold mb-4 display-6">Semantic <br><span class="text-primary text-gradient">Deep Learning</span></h2>
+            <p class="text-muted mb-4 fs-5 fw-light">We don't just see pixels; we understand them. Our AI classifies terrain classes with industry-leading mIoU scores.</p>
+            
+            <div class="list-group list-group-flush border-0">
+                <div class="list-group-item bg-transparent border-0 d-flex align-items-center px-0 mb-2">
+                    <div class="icon-xs bg-primary text-white rounded-circle me-3"><i class="bi bi-check-lg"></i></div>
+                    <span class="fw-semibold text-dark">Building & Road Segmentation</span>
+                </div>
+                <div class="list-group-item bg-transparent border-0 d-flex align-items-center px-0 mb-2">
+                    <div class="icon-xs bg-primary text-white rounded-circle me-3"><i class="bi bi-check-lg"></i></div>
+                    <span class="fw-semibold text-dark">Vegetation & Crop Health Mapping</span>
+                </div>
+            </div>
+        </div>
+        
+    <div class="col-lg-7 hover-lift-up">
+    <div class="segmentation-container position-relative rounded-4 overflow-hidden shadow-2xl border-4 border-white bg-dark">
+        <img src="{{ url_for('static', filename='actual.jpg') }}" 
+             class="img-base"
+             alt="Drone Base Layer"
+             onerror="this.src='https://images.unsplash.com/photo-1449156001935-d2863cb22690?auto=format&fit=crop&w=1000'">
+        
+        <div class="mask-layer">
+            <img src="{{ url_for('static', filename='mask.png.jpg') }}"
+                 class="w-100 h-100 object-fit-cover" 
+                 alt="AI Overlay Mask">
+                 onerror="this.src='https://images.unsplash.com/photo-1550411234-7473fa610447?auto=format&fit=crop&w=1000&sat=-100&bri=-20'">
+            
+            <div class="position-absolute bottom-0 end-0 m-3 z-index-10">
+                <span class="badge rounded-pill bg-danger border border-white px-3 py-2 shadow">AI ANALYSIS ACTIVE</span>
+            </div>
+        </div>
+
+        <div class="position-absolute top-0 start-0 m-3 d-none d-lg-block z-index-10 hover-hint">
+            <span class="badge bg-dark opacity-75 p-2 rounded-pill shadow-sm">
+                <i class="bi bi-mouse me-2"></i>HOVER TO VIEW MASK →
+            </span>
+        </div>
+    </div>
+</div>
+</section>
+
+<section class="container py-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <h6 class="text-primary text-uppercase fw-bold ls-2">Academic Projects</h6>
+            <h2 class="fw-bold">Latest Field Operations</h2>
+        </div>
+        <a href="/services" class="btn btn-outline-primary rounded-pill px-4">View All Projects</a>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="operation-card rounded-5 overflow-hidden shadow-lg">
+                <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=600" class="w-100 h-100 object-fit-cover" style="min-height: 300px;" alt="Coastal">
+                <div class="operation-overlay">
+                    <h5 class="fw-bold text-white mb-0">Coastal Erosion Study</h5>
+                    <p class="text-white-50 small mb-0">Marine Science Dept.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="operation-card rounded-5 overflow-hidden shadow-lg">
+                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600" class="w-100 h-100 object-fit-cover" style="min-height: 300px;" alt="Grid">
+                <div class="operation-overlay">
+                    <h5 class="fw-bold text-white mb-0">Power Grid Analytics</h5>
+                    <p class="text-white-50 small mb-0">Systems Engineering</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="operation-card rounded-5 overflow-hidden shadow-lg">
+                <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=600" class="w-100 h-100 object-fit-cover" style="min-height: 300px;" alt="Agri">
+                <div class="operation-overlay">
+                    <h5 class="fw-bold text-white mb-0">Smart Agriculture</h5>
+                    <p class="text-white-50 small mb-0">Agricultural Lab</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="container py-5 mb-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Frequently Asked Questions</h2>
+        <div class="mx-auto bg-primary rounded-pill" style="width: 50px; height: 3px;"></div>
+    </div>
+    <div class="accordion accordion-flush w-75 mx-auto shadow-sm rounded-4 overflow-hidden border" id="faq">
+        
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+                    How do I access raw and processed data?
+                </button>
+            </h2>
+            <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faq">
+                <div class="accordion-body text-muted">Log in to your dashboard to download processed CSV, GeoJSON, and LAS files.</div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+                    What is the average processing time?
+                </button>
+            </h2>
+            <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faq">
+                <div class="accordion-body text-muted">Datasets are usually processed within 15-30 minutes on our NVIDIA GPUs.</div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+                    Which drone formats are supported for analysis?
+                </button>
+            </h2>
+            <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faq">
+                <div class="accordion-body text-muted">We support high-resolution RGB imagery (JPG/PNG), Multi-spectral TIFFs, and LiDAR point clouds (LAS/LAZ).</div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q4">
+                    Can I export results to GIS software like QGIS or ArcGIS?
+                </button>
+            </h2>
+            <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faq">
+                <div class="accordion-body text-muted">Yes, our output is fully compatible with major GIS tools. You can export classified masks as Shapefiles or GeoJSON layers.</div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#q5">
+                    Is my data secure on the cloud?
+                </button>
+            </h2>
+            <div id="q5" class="accordion-collapse collapse" data-bs-parent="#faq">
+                <div class="accordion-body text-muted">Data privacy is our priority. All uploads are encrypted with AES-256 and stored in secure research silos accessible only by you.</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="bg-dark text-white py-5 my-5">
+    <div class="container py-4">
+        <div class="row g-4 text-center">
+            <div class="col-md-3 col-6 border-end border-secondary border-opacity-25"> 
+                <h2 class="text-primary display-5 fw-bold mb-0">92%</h2> 
+                <p class="small text-uppercase ls-2 text-white-50">mIoU Accuracy</p> 
+            </div>
+            <div class="col-md-3 col-6 border-end border-secondary border-opacity-25"> 
+                <h2 class="display-5 fw-bold mb-0">50+</h2> 
+                <p class="small text-uppercase ls-2 text-white-50">Class Labels</p> 
+            </div>
+            <div class="col-md-3 col-6 border-end border-secondary border-opacity-25"> 
+                <h2 class="display-5 fw-bold mb-0">10k+</h2> 
+                <p class="small text-uppercase ls-2 text-white-50">Image Sets</p> 
+            </div>
+            <div class="col-md-3 col-6"> 
+                <h2 class="display-5 fw-bold mb-0">0.5s</h2> 
+                <p class="small text-uppercase ls-2 text-white-50">Latency/Img</p> 
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .backdrop-blur { backdrop-filter: blur(8px); background-color: rgba(255,255,255,0.1); }
+    .ls-2 { letter-spacing: 2px; }
+    .text-gradient { 
+        background: linear-gradient(45deg, #0d6efd, #00d2ff); 
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        color: #0d6efd; display: inline-block; 
+    }
+    .icon-shape { width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+    .icon-xs { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+    .hover-lift-up { transition: all 0.4s ease; }
+    .hover-lift-up:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important; }
+    
+    /* Operation Cards Overlay */
+    .operation-card { position: relative; cursor: pointer; transition: 0.4s; }
+    .operation-card:hover { transform: translateY(-8px); }
+    .operation-overlay { 
+        position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
+        background: linear-gradient(transparent, rgba(0,0,0,0.85)); 
+    }
+
+    .segmentation-wrapper { transition: 0.5s; cursor: crosshair; }
+    .mask-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: 0.5s; z-index: 2; }
+    .segmentation-container:hover .mask-layer { opacity: 1; }
+    .mask-badge { position: absolute; bottom: 20px; right: 20px; }
+    .bg-soft-primary { background-color: #e7f1ff; }
+</style>
+
+{% endblock %}

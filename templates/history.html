@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container mt-5" style="color: white; padding-top: 50px;">
+    <h2>Your Prediction History</h2>
+    <hr style="background-color: white;">
+
+    {% if not histories %}
+        <div class="alert alert-info bg-dark text-light border-secondary">
+            You haven't uploaded or segmented any images yet.
+        </div>
+    {% else %}
+        <div class="row">
+            {% for item in histories %}
+                <div class="col-md-12 mb-4">
+                    <div class="card bg-secondary text-white shadow">
+                        <div class="card-header bg-dark d-flex justify-content-between align-items-center">
+                            <span>Date: {{ item.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                            <span class="badge bg-success">Inference: {{ item.inference_time }} ms</span>
+                        </div>
+                        <div class="card-body bg-dark">
+                            <div class="row text-center">
+                                <div class="col-md-4">
+                                    <h6>Original Image</h6>
+                                    <img src="{{ url_for('static', filename='uploads/' + item.original_image) }}" class="img-fluid img-thumbnail" style="max-height: 200px;" alt="Original">
+                                </div>
+                                <div class="col-md-4">
+                                    <h6>Predicted Mask</h6>
+                                    <img src="{{ url_for('static', filename='results/' + item.mask_image) }}" class="img-fluid img-thumbnail" style="max-height: 200px;" alt="Mask">
+                                </div>
+                                <div class="col-md-4">
+                                    <h6>Blended Overlay</h6>
+                                    <img src="{{ url_for('static', filename='results/' + item.overlay_image) }}" class="img-fluid img-thumbnail" style="max-height: 200px;" alt="Overlay">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

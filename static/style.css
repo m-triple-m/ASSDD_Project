@@ -1,0 +1,257 @@
+/* DRONEVISION AI - FIGMA DESIGN SETTINGS
+    Font: Poppins (Headings), Inter (Body)
+    Primary: #1E3A8A, Secondary: #0EA5E9
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@500;600;700&display=swap');
+
+:root {
+    --primary: #1E3A8A;
+    --secondary: #0EA5E9;
+    --bg-light: #F8FAFC;
+    --text-dark: #0F172A;
+    --accent: #22D3EE;
+    --white: #ffffff;
+    --radius-btn: 14px;
+    --radius-card: 20px;
+    --container-width: 1200px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+h1, h2, h3, .nav-logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+/* --- NAVIGATION --- */
+nav {
+    background: var(--white);
+    padding: 20px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    color: var(--primary);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    margin-left: 30px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--secondary);
+}
+
+/* --- BUTTONS --- */
+.btn {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    padding: 14px 28px;
+    border-radius: var(--radius-btn);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-secondary { background: var(--secondary); color: white; }
+.btn-outline { border: 2px solid var(--primary); color: var(--primary); }
+
+.btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 10px 20px rgba(30, 58, 138, 0.2);
+}
+
+/* --- HERO SECTION --- */
+.hero {
+    max-width: var(--container-width);
+    margin: 80px auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.hero-content { flex: 1; }
+.hero-image-area { flex: 1; }
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    color: #475569;
+    margin-bottom: 35px;
+}
+
+.hero-img {
+    width: 100%;
+    border-radius: var(--radius-card);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+    transition: transform 0.5s ease;
+}
+
+.hero-img:hover { transform: scale(1.02); }
+
+/* --- FORMS (Login/Register) --- */
+.auth-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.form-card {
+    background: var(--white);
+    width: 400px;
+    padding: 40px;
+    border-radius: var(--radius-card);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+.form-card h2 { margin-bottom: 10px; text-align: center; color: var(--primary); }
+.subtitle { text-align: center; color: #64748B; margin-bottom: 30px; font-size: 0.9rem; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; font-weight: 500; }
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus { border-color: var(--secondary); }
+
+/* --- TABLE --- */
+.dataset-section {
+    max-width: var(--container-width);
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+table {
+    width: 100%;
+    background: white;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    border-collapse: collapse;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+thead { background: var(--primary); color: white; }
+th, td { padding: 18px; text-align: left; }
+tbody tr { border-bottom: 1px solid #F1F5F9; }
+tbody tr:hover { background: #F8FAFC; }
+
+/* Container settings */
+.segmentation-container {
+    position: relative;
+    width: 100%;
+    max-width: 650px;      /* image ka max size */
+    height: 420px;         /* fixed proper height */
+    margin: auto;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    background: #000;
+}
+
+
+/* Base image */
+.segmentation-container .img-base,
+.segmentation-container .mask-layer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;   /* image cut nahi hogi */
+    display: block;
+}
+
+/* Mask Layer */
+.mask-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 2;
+}
+
+
+/* image-size */
+.mask-layer img {
+    width: 50%;
+    height: 30%;
+    object-fit: cover; 
+    display: block;
+}
+
+/* Hover effect */
+.segmentation-container:hover .mask-layer {
+    opacity: 1;
+}
+
+
+/* Optional image enhancement */
+.segmentation-container img {
+    filter: saturate(1.1);
+}
+
+/* Mask layer initially hidden */
+.mask-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0; /* Shuru mein hide rahegi */
+    transition: opacity 0.5s ease-in-out; /* Smooth transition */
+    z-index: 2;
+}
+
+/* Show mask on hover */
+.segmentation-container:hover .mask-layer {
+    opacity: 1; /* Mouse le jane par dikhegi */
+}

@@ -1,0 +1,14 @@
+/dataset
+resnetunet_aerial.pth
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.env
+.env.local
+instance/
+.DS_Store
+*.db
+users.db

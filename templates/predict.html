@@ -1,0 +1,145 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="hero-section py-5 bg-dark text-white" style="background: linear-gradient(rgba(11, 17, 32, 0.95), rgba(30, 41, 59, 0.95)), url('{{ url_for('static', filename='uploads/' + filename) }}'); background-size: cover; background-position: center; min-height: 30vh; display: flex; align-items: center;">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="badge rounded-pill bg-success bg-opacity-25 text-success px-4 py-2 mb-4 border border-success border-opacity-50">
+                    <i class="bi bi-check-circle-fill me-2"></i>Mission Complete
+                </div>
+                <h1 class="display-5 fw-bold text-white mb-2">Analysis <span class="text-primary text-gradient">Report</span></h1>
+                <p class="lead text-white-50 fw-light mb-0">
+                    Inference completed in <span class="text-white fw-bold">{{ time }}ms</span> with high-fidelity semantic mapping.
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                <a href="{{ url_for('detector') }}" class="btn btn-outline-light rounded-pill px-4 me-2">
+                    <i class="bi bi-plus-lg me-2"></i>New Analysis
+                </a>
+                <button onclick="window.print()" class="btn btn-primary rounded-pill px-4 shadow">
+                    <i class="bi bi-download me-2"></i>Export PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container py-5 mt-n4 position-relative z-index-10">
+    <div class="row g-4">
+        <!-- Main Visualization -->
+        <div class="col-lg-8">
+            <div class="card border-0 rounded-5 shadow-xl overflow-hidden mb-4">
+                <div class="card-header bg-white border-0 p-4 d-flex justify-content-between align-items-center">
+                    <h5 class="fw-bold mb-0">Neural Mapping Results</h5>
+                    <div class="nav nav-pills" id="v-pills-tab" role="tablist">
+                        <button class="nav-link active rounded-pill px-3 py-1 small me-2" data-bs-toggle="pill" data-bs-target="#overlayTab">Overlay</button>
+                        <button class="nav-link rounded-pill px-3 py-1 small me-2" data-bs-toggle="pill" data-bs-target="#maskTab">Mask Only</button>
+                        <button class="nav-link rounded-pill px-3 py-1 small" data-bs-toggle="pill" data-bs-target="#origTab">Original</button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="overlayTab">
+                            <div class="position-relative">
+                                <img src="{{ url_for('static', filename='results/overlay_' + filename) }}" class="img-fluid w-100" alt="Overlay">
+                                <div class="position-absolute bottom-0 end-0 m-3">
+                                    <span class="badge rounded-pill bg-dark bg-opacity-75 p-2 px-3 border border-secondary">60% Alpha Blending</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="maskTab">
+                            <img src="{{ url_for('static', filename='results/mask_' + filename) }}" class="img-fluid w-100" alt="Mask">
+                        </div>
+                        <div class="tab-pane fade" id="origTab">
+                            <img src="{{ url_for('static', filename='uploads/' + filename) }}" class="img-fluid w-100" alt="Original">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Grid -->
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="card border-0 rounded-4 shadow-sm overflow-hidden">
+                        <div class="p-2">
+                            <img src="{{ url_for('static', filename='uploads/' + filename) }}" class="img-fluid rounded-3" alt="Raw">
+                            <p class="small text-center mt-2 mb-1 fw-bold text-muted text-uppercase ls-1">Raw Imagery</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card border-0 rounded-4 shadow-sm overflow-hidden">
+                        <div class="p-2">
+                            <img src="{{ url_for('static', filename='results/mask_' + filename) }}" class="img-fluid rounded-3" alt="Classified">
+                            <p class="small text-center mt-2 mb-1 fw-bold text-muted text-uppercase ls-1">Pixel Classification</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Stats -->
+        <div class="col-lg-4">
+            <div class="card border-0 rounded-5 shadow-xl p-4 mb-4">
+                <h5 class="fw-bold mb-4">Land Cover Metrics</h5>
+                <div class="stats-list">
+                    {% for stat in stats %}
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-1 me-2" style="width: 12px; height: 12px; background-color: {{ stat.color }};"></div>
+                                <span class="small fw-semibold">{{ stat.name }}</span>
+                            </div>
+                            <span class="small fw-bold">{{ stat.pct }}%</span>
+                        </div>
+                        <div class="progress rounded-pill" style="height: 6px;">
+                            <div class="progress-bar rounded-pill" role="progressbar" style="width: {{ stat.pct }}%; background-color: {{ stat.color }};"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card border-0 rounded-5 shadow-xl p-4 bg-primary text-white">
+                <h6 class="fw-bold mb-3 opacity-75">MISSION METADATA</h6>
+                <div class="list-group list-group-flush bg-transparent">
+                    <div class="list-group-item bg-transparent border-white border-opacity-10 text-white px-0 d-flex justify-content-between">
+                        <span class="small opacity-75">Inference Device</span>
+                        <span class="small fw-bold">Tesla T4 / RTX</span>
+                    </div>
+                    <div class="list-group-item bg-transparent border-white border-opacity-10 text-white px-0 d-flex justify-content-between">
+                        <span class="small opacity-75">Patch Size</span>
+                        <span class="small fw-bold">512 x 512 px</span>
+                    </div>
+                    <div class="list-group-item bg-transparent border-white border-opacity-10 text-white px-0 d-flex justify-content-between">
+                        <span class="small opacity-75">Model Architecture</span>
+                        <span class="small fw-bold">ResNet-UNet</span>
+                    </div>
+                    <div class="list-group-item bg-transparent border-0 text-white px-0 d-flex justify-content-between">
+                        <span class="small opacity-75">Status</span>
+                        <span class="badge bg-success rounded-pill px-3">Processed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .mt-n4 { margin-top: -4rem !important; }
+    .z-index-10 { z-index: 10; }
+    .shadow-xl { box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.1) !important; }
+    .text-gradient { 
+        background: linear-gradient(45deg, #0d6efd, #00d2ff); 
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        color: #0d6efd; display: inline-block; 
+    }
+    .ls-1 { letter-spacing: 1px; }
+    .nav-pills .nav-link { background: #f8f9fa; color: #6c757d; }
+    .nav-pills .nav-link.active { background: #0d6efd; color: white; }
+    .stats-list { max-height: 400px; overflow-y: auto; padding-right: 5px; }
+    .stats-list::-webkit-scrollbar { width: 4px; }
+    .stats-list::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 10px; }
+</style>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="card border-0 shadow-lg p-4 rounded-4" style="max-width: 400px; width: 100%;">
+        
+        <div class="text-center mb-4">
+            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                <i class="bi bi-shield-lock-fill fs-1"></i>
+            </div>
+            <h2 class="fw-bold">Welcome Back</h2>
+            <p class="text-muted small">Enter your credentials to access your dashboard</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{% if category == 'error' %}danger{% elif category == 'success' %}success{% else %}info{% endif %} p-2 small text-center border-0 mb-3" style="border-radius: 10px;">
+                    <i class="bi {% if category == 'error' %}bi-exclamation-circle{% else %}bi-check-circle{% endif %} me-1"></i> 
+                    {{ message }}
+                </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="mb-3">
+                <label class="form-label small fw-bold">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-envelope text-muted"></i></span>
+                    <input type="email" name="email" class="form-control bg-light border-0 shadow-none" placeholder="name@example.com" required>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="d-flex justify-content-between">
+                    <label class="form-label small fw-bold">Password</label>
+                    <a href="#" class="text-decoration-none small">Forgot?</a>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="bi bi-key text-muted"></i></span>
+                    <input type="password" name="password" class="form-control bg-light border-0 shadow-none" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2 rounded-pill fw-bold shadow">
+                Login <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="small text-muted mb-0">Don't have an account?</p>
+            <a href="{{ url_for('register') }}" class="fw-bold text-decoration-none">Create an Account</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

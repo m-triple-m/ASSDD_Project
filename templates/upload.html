@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="hero-section py-5" style="background: linear-gradient(rgba(11, 17, 32, 0.9), rgba(30, 41, 59, 0.9)), url('https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=1500'); background-size: cover; background-position: center; min-height: 40vh; display: flex; align-items: center;">
+    <div class="container text-center py-4">
+        <div class="badge rounded-pill bg-primary bg-opacity-25 text-primary px-4 py-2 mb-4 border border-primary border-opacity-50">
+            <i class="bi bi-cloud-arrow-up-fill me-2"></i>Mission Preparation
+        </div>
+        <h1 class="display-4 fw-bold text-white mb-3">Upload <span class="text-primary text-gradient">Aerial Imagery</span></h1>
+        <p class="lead text-white-50 mx-auto w-75 fw-light">
+            Deploy our neural networks on your drone data. Our models are trained on high-resolution semantic datasets for pixel-level accuracy.
+        </p>
+    </div>
+</section>
+
+<section class="container py-5 mt-n5 position-relative z-index-10">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="upload-card bg-white rounded-5 shadow-xl border-0 overflow-hidden">
+                <div class="p-4 p-lg-5">
+                    <form action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data" id="uploadForm">
+                        <div class="drop-zone border-2 border-dashed rounded-4 p-5 text-center position-relative mb-4" id="dropZone">
+                            <input type="file" name="file" id="fileInput" class="position-absolute top-0 start-0 w-100 h-100 opacity-0 cursor-pointer" accept="image/*" required>
+                            
+                            <div class="dz-content">
+                                <div class="icon-shape bg-primary bg-opacity-10 text-primary rounded-circle mb-4 mx-auto" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-upload fs-2"></i>
+                                </div>
+                                <h4 class="fw-bold mb-2">Drag & Drop Image</h4>
+                                <p class="text-muted mb-0">or click to browse your files</p>
+                                <p class="small text-muted mt-2 opacity-75">Supported: JPG, PNG, TIFF (Max 25MB)</p>
+                            </div>
+
+                            <div id="filePreview" class="d-none mt-3">
+                                <div class="p-3 bg-light rounded-4 d-flex align-items-center gap-3">
+                                    <div class="preview-thumb-container rounded-3 overflow-hidden border shadow-sm" style="width: 60px; height: 60px;">
+                                        <img id="previewImg" src="#" alt="Preview" class="w-100 h-100 object-fit-cover">
+                                    </div>
+                                    <div class="flex-grow-1 text-start">
+                                        <h6 class="mb-0 fw-bold text-truncate" id="fileName">image_name.jpg</h6>
+                                        <p class="small text-muted mb-0" id="fileSize">0.0 MB</p>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle" id="clearBtn">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg border-0 fw-bold w-100" id="submitBtn">
+                                <i class="bi bi-cpu-fill me-2"></i>Start Analysis Mission
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="bg-light p-4 border-top">
+                    <div class="row g-3 text-center">
+                        <div class="col-4">
+                            <h6 class="fw-bold mb-1">92%</h6>
+                            <p class="small text-muted mb-0">mIoU Avg.</p>
+                        </div>
+                        <div class="col-4 border-start border-end">
+                            <h6 class="fw-bold mb-1">&lt; 1s</h6>
+                            <p class="small text-muted mb-0">Latency</p>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="fw-bold mb-1">23</h6>
+                            <p class="small text-muted mb-0">Labels</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container py-5 mb-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="p-4 bg-white rounded-5 shadow-sm border-0 h-100 hover-lift-up">
+                <div class="icon-xs bg-primary text-white rounded-circle mb-3"><i class="bi bi-check-lg"></i></div>
+                <h6 class="fw-bold">Automatic Masking</h6>
+                <p class="small text-muted mb-0">Pixel-level classification for buildings, vegetation, and more.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 bg-white rounded-5 shadow-sm border-0 h-100 hover-lift-up">
+                <div class="icon-xs bg-success text-white rounded-circle mb-3"><i class="bi bi-check-lg"></i></div>
+                <h6 class="fw-bold">Mission Stats</h6>
+                <p class="small text-muted mb-0">Detailed land-cover distribution percentages for your data.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="p-4 bg-white rounded-5 shadow-sm border-0 h-100 hover-lift-up">
+                <div class="icon-xs bg-warning text-white rounded-circle mb-3"><i class="bi bi-check-lg"></i></div>
+                <h6 class="fw-bold">High Performance</h6>
+                <p class="small text-muted mb-0">Trained on NVIDIA RTX clusters for sub-second inference.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .mt-n5 { margin-top: -5rem !important; }
+    .z-index-10 { z-index: 10; }
+    .shadow-xl { box-shadow: 0 1.5rem 4rem rgba(0,0,0,0.15) !important; }
+    .text-gradient { 
+        background: linear-gradient(45deg, #0d6efd, #00d2ff); 
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        color: #0d6efd; display: inline-block; 
+    }
+    .drop-zone {
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+        border-color: #0d6efd !important;
+        background: #f0f7ff;
+    }
+    .cursor-pointer { cursor: pointer; }
+    .hover-lift-up { transition: all 0.4s ease; }
+    .hover-lift-up:hover { transform: translateY(-8px); box-shadow: 0 1rem 2rem rgba(0,0,0,0.08) !important; }
+    .icon-xs { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+</style>
+
+<script>
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const filePreview = document.getElementById('filePreview');
+    const previewImg = document.getElementById('previewImg');
+    const fileName = document.getElementById('fileName');
+    const fileSize = document.getElementById('fileSize');
+    const clearBtn = document.getElementById('clearBtn');
+    const dzContent = document.querySelector('.dz-content');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+        handleFiles(files[0]);
+    });
+
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            handleFiles(this.files[0]);
+        }
+    });
+
+    function handleFiles(file) {
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                fileName.textContent = file.name;
+                fileSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                filePreview.classList.remove('d-none');
+                dzContent.classList.add('d-none');
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    clearBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fileInput.value = '';
+        filePreview.classList.add('d-none');
+        dzContent.classList.remove('d-none');
+    });
+</script>
+{% endblock %}
