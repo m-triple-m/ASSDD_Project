@@ -62,14 +62,24 @@ For production, switch from SQLite to PostgreSQL:
 
 ## Important Notes
 
-### Model File (resnetunet_aerial.pth)
-- The model file (150+ MB) is already in `.gitignore`
-- **Option 1 (Not Recommended)**: Add to Git LFS if < 1GB
-- **Option 2 (Recommended)**: Download during build time
-  - Modify build command or create a script to download from a storage service
-  - Use AWS S3, Google Cloud Storage, or similar
+## Model File Configuration
 
-### Upload Storage
+The model is automatically downloaded from Hugging Face Hub at application startup:
+- **Repository**: `mtriplem/aerial_image`
+- **Model File**: `resnetunet_aerial.pth`
+- **Cached Location**: `./model_cache/`
+
+**How it works:**
+1. When the app starts, it uses the `huggingface_hub` library to download the model
+2. The model is cached locally to avoid repeated downloads
+3. No manual upload or Git LFS configuration needed
+
+**First start may take longer** due to the initial model download (~150+ MB).
+
+If the download fails:
+- Check your Hugging Face Hub repository is set to public
+- Verify the model file name matches exactly
+- Check Render's deployment logs for network issues
 - Currently uses local `static/uploads/` directory
 - On Render, files are ephemeral (lost when service restarts)
 - **For production**:

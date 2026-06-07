@@ -90,12 +90,21 @@ DATABASE_URL=postgresql://<user>:<password>@<host>/<dbname>
 2. Monitor application logs in real-time
 3. Set up alerts for deployment failures
 
-## Performance Considerations:
+## Model File Handling:
 
-- PyTorch inference may be slow on CPU-only plans
-- Consider GPU plan if available for your account tier
-- Optimize image processing pipeline for faster response times
-- Implement caching for frequently processed images
+The model is **automatically downloaded from Hugging Face Hub** at application startup:
+```
+Repository: mtriplem/aerial_image
+File: resnetunet_aerial.pth
+```
+
+✅ **Advantages:**
+- No need to commit large files to Git
+- Automatic caching after first download
+- No manual upload needed
+- Easy to update model by updating the Hub repository
+
+⏱️ **Note**: First deployment/startup may take longer (~2-5 minutes) due to initial model download. Subsequent restarts will be faster due to caching.
 
 ## Cost Estimates on Render:
 

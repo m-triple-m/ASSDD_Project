@@ -13,6 +13,7 @@ import torch.nn.functional as F
 from torchvision import models, transforms
 from PIL import Image
 from dotenv import load_dotenv
+from huggingface_hub import hf_hub_download
 
 load_dotenv()
 
@@ -134,10 +135,21 @@ COLOR_MAP = np.array([
 # ---------------------------------------------------------
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = ResNetUNet(23).to(DEVICE)
-if os.path.exists('resnetunet_aerial.pth'):
-    sd = torch.load('resnetunet_aerial.pth', map_location=DEVICE)
+
+# Download model from Hugging Face Hub
+try:
+    model_path = hf_hub_download(
+        repo_id="mtriplem/aerial_image",
+        filename="resnetunet_aerial.pth",
+        cache_dir="./model_cache"
+    )
+    sd = torch.load(model_path, map_location=DEVICE)
     model.load_state_dict({k.replace('module.', ''): v for k, v in sd.items()})
     model.eval()
+    print("✓ Model loaded successfully from Hugging Face Hub")
+except Exception as e:
+    print(f"⚠️  Warning: Could not load model from Hugging Face Hub: {e}")
+    print("Application will start but predictions will not work.")
 
 transform = transforms.Compose([
     transforms.Resize((512, 512)), # Best accuracy matches patch size

@@ -8,3 +8,4 @@ torchvision==0.15.2
 Pillow==10.0.0
 python-dotenv==1.0.0
 gunicorn==21.2.0
+huggingface-hub==0.20.0
