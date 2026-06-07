@@ -2,12 +2,12 @@ services:
   - type: web
     name: aerial-image-segmentation
     runtime: python
-    runtimeVersion: 3.11
-    buildCommand: pip install --upgrade --no-cache-dir pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
+    runtimeVersion: 3.11.9
+    buildCommand: pip install --no-cache-dir --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt
     startCommand: gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.5
+        value: 3.11.9
       - key: SECRET_KEY
         generateValue: true
       - key: DATABASE_URL

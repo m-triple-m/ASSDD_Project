@@ -5,8 +5,11 @@
 
 set -e  # Exit on error
 
+echo "Python version check:"
+python --version
+
 echo "Upgrading pip, setuptools, and wheel..."
-python -m pip install --upgrade --no-cache-dir pip setuptools wheel
+python -m pip install --no-cache-dir --upgrade pip setuptools wheel
 
 echo "Installing Python dependencies..."
 pip install --no-cache-dir -r requirements.txt
