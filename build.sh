@@ -3,8 +3,10 @@
 # build.sh - Build script for Render.com deployment
 # This script is used to prepare the application for deployment
 
+echo "Upgrading pip, setuptools, and wheel..."
+pip install --upgrade pip setuptools wheel
+
 echo "Installing Python dependencies..."
-pip install --upgrade pip
 pip install -r requirements.txt
 
 echo "Creating necessary directories..."
